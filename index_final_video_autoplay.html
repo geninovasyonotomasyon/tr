@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gen İnovasyon Otomasyon</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --gold:#f3c64e;
+      --green:#6ed36a;
+      --white:#f6f8fb;
+      --muted:rgba(255,255,255,.78);
+      --line:rgba(255,255,255,.14);
+      --card:rgba(7,18,28,.66);
+      --shadow:0 18px 45px rgba(0,0,0,.32);
+    }
+
+    body{
+      min-height:100vh;
+      font-family:Segoe UI,Arial,sans-serif;
+      color:var(--white);
+      background:
+        linear-gradient(120deg, rgba(4,11,17,.93), rgba(8,20,31,.78)),
+        url('GEN logo.jpg') center center/cover no-repeat fixed;
+      overflow-x:hidden;
+    }
+
+    .sun-glow{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background:
+        radial-gradient(circle at 12% 12%, rgba(243,198,78,.30), transparent 18%),
+        radial-gradient(circle at 83% 18%, rgba(110,211,106,.12), transparent 20%),
+        radial-gradient(circle at 50% 100%, rgba(255,255,255,.06), transparent 22%);
+    }
+
+    .page{
+      width:min(1460px, calc(100% - 12px));
+      margin:0 auto;
+      padding:18px 0 24px;
+      position:relative;
+      z-index:1;
+    }
+
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:22px;
+      padding:12px 16px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.04);
+      border-radius:20px;
+      backdrop-filter:blur(12px);
+      -webkit-backdrop-filter:blur(12px);
+      box-shadow:var(--shadow);
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:14px;
+    }
+
+    .brand-badge{
+      width:52px;
+      height:52px;
+      border-radius:16px;
+      overflow:hidden;
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.18);
+      display:grid;
+      place-items:center;
+      flex:0 0 52px;
+    }
+
+    .brand-badge img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .brand h1{
+      font-size:20px;
+      line-height:1.1;
+      letter-spacing:.3px;
+    }
+
+    .brand p{
+      font-size:13px;
+      color:var(--muted);
+      margin-top:4px;
+    }
+
+    .top-pill{
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid rgba(243,198,78,.28);
+      background:rgba(243,198,78,.10);
+      color:#fff6d7;
+      font-size:13px;
+      white-space:nowrap;
+    }
+
+    .hero{
+      display:grid;
+      grid-template-columns:1.15fr .95fr;
+      gap:24px;
+      align-items:stretch;
+    }
+
+    .hero-left,.hero-right{
+      border:1px solid var(--line);
+      background:var(--card);
+      border-radius:30px;
+      backdrop-filter:blur(14px);
+      -webkit-backdrop-filter:blur(14px);
+      box-shadow:var(--shadow);
+    }
+
+    .hero-left{
+      padding:42px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .hero-left:before{
+      content:"";
+      position:absolute;
+      right:-60px;
+      top:-60px;
+      width:220px;
+      height:220px;
+      border-radius:50%;
+      background:radial-gradient(circle, rgba(243,198,78,.28), transparent 65%);
+      filter:blur(4px);
+    }
+
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:11px 16px;
+      border-radius:999px;
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.14);
+      color:var(--muted);
+      font-size:13px;
+      letter-spacing:.35px;
+      margin-bottom:22px;
+    }
+
+    .headline{
+      font-size:clamp(38px, 5.8vw, 74px);
+      line-height:.95;
+      letter-spacing:-2.5px;
+      margin-bottom:18px;
+      text-transform:uppercase;
+    }
+
+    .headline .accent{
+      color:var(--gold);
+    }
+
+    .sub{
+      font-size:clamp(16px, 2vw, 20px);
+      line-height:1.75;
+      color:var(--muted);
+      max-width:720px;
+      margin-bottom:28px;
+    }
+
+    .feature-row{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:14px;
+      margin-bottom:24px;
+    }
+
+    .feature{
+      padding:18px;
+      border-radius:22px;
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.10);
+    }
+
+    .feature strong{
+      display:block;
+      font-size:15px;
+      margin-bottom:8px;
+    }
+
+    .feature span{
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.6;
+      display:block;
+    }
+
+
+    .hero-map-wrap{
+      border-radius:26px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.12);
+      background:#0c1d2b;
+      margin-bottom:4px;
+    }
+
+    .hero-map{
+      width:100%;
+      height:520px;
+      border:0;
+      display:block;
+      background:#0b1015;
+    }
+
+    .hero-map-actions{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      padding:16px;
+      background:rgba(255,255,255,.03);
+      border-top:1px solid rgba(255,255,255,.08);
+    }
+
+    .promo-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+    }
+
+    .single-promo{
+      grid-template-columns:1fr;
+    }
+
+    .promo-wide{
+      min-height:auto;
+    }
+
+    .promo-card{
+      padding:18px;
+      border-radius:22px;
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.10);
+      min-height:148px;
+    }
+
+    .promo-card h4{
+      font-size:17px;
+      margin-bottom:10px;
+      color:var(--gold);
+    }
+
+    .promo-card p{
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.7;
+    }
+
+    .hero-right{
+      padding:26px;
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+
+    .side-title{
+      font-size:13px;
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:2px;
+    }
+
+    .hero-right h2{
+      font-size:34px;
+      line-height:1.05;
+      margin-bottom:4px;
+    }
+
+    .hero-right p.lead{
+      color:var(--muted);
+      line-height:1.7;
+      font-size:15px;
+      margin-bottom:6px;
+    }
+
+    .button{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      width:100%;
+      padding:16px 18px;
+      border-radius:20px;
+      text-decoration:none;
+      color:var(--white);
+      background:linear-gradient(135deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
+      border:1px solid rgba(255,255,255,.12);
+      transition:transform .22s ease, border-color .22s ease, box-shadow .22s ease, background .22s ease;
+      box-shadow:0 12px 28px rgba(0,0,0,.22);
+    }
+
+    .button:hover{
+      transform:translateY(-3px);
+      border-color:rgba(243,198,78,.38);
+      background:linear-gradient(135deg, rgba(243,198,78,.14), rgba(255,255,255,.06));
+      box-shadow:0 16px 34px rgba(0,0,0,.3);
+    }
+
+    .button-left{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      min-width:0;
+    }
+
+    .icon-wrap{
+      width:50px;
+      height:50px;
+      border-radius:15px;
+      overflow:hidden;
+      background:#fff;
+      flex:0 0 50px;
+      display:grid;
+      place-items:center;
+      border:1px solid rgba(255,255,255,.15);
+    }
+
+    .icon-wrap img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .button-text{
+      min-width:0;
+    }
+
+    .button-text strong{
+      display:block;
+      font-size:16px;
+      margin-bottom:4px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .button-text span{
+      display:block;
+      font-size:13px;
+      color:var(--muted);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .arrow{
+      font-size:20px;
+      opacity:.92;
+      flex:0 0 auto;
+    }
+
+    .video-card{
+      margin-top:6px;
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:24px;
+      overflow:hidden;
+      background:rgba(0,0,0,.28);
+    }
+
+    .video-head{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:center;
+      padding:14px 18px;
+      background:rgba(255,255,255,.05);
+      border-bottom:1px solid rgba(255,255,255,.09);
+    }
+
+    .video-head strong{
+      font-size:15px;
+    }
+
+    .video-head span{
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    .mini-btn{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:12px 16px;
+      border-radius:14px;
+      text-decoration:none;
+      color:var(--white);
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.05);
+      transition:transform .2s ease, border-color .2s ease, background .2s ease;
+    }
+
+    .mini-btn:hover{
+      transform:translateY(-2px);
+      border-color:rgba(243,198,78,.38);
+      background:rgba(243,198,78,.10);
+    }
+
+
+    iframe{
+      display:block;
+      width:100%;
+      height:320px;
+      border:0;
+      background:#000;
+    }
+
+    @media (max-width:1100px){
+      .hero{grid-template-columns:1fr}
+
+    @media (max-width:760px){
+      .page{width:100%; padding:10px 0 18px}
+      .topbar{flex-direction:column;align-items:flex-start}
+      .hero-left,.hero-right{padding:22px}
+      .feature-row,.promo-grid{grid-template-columns:1fr}
+      .hero-map{height:320px}
+      iframe{height:240px}
+  </style>
+</head>
+<body>
+  <div class="sun-glow"></div>
+
+  <div class="page">
+    <div class="topbar">
+      <div class="brand">
+        <div class="brand-badge"><img src="GEN logo.jpg" alt="Gen Logo"></div>
+        <div>
+          <h1>Gen İnovasyon Otomasyon</h1>
+          
+        </div>
+      </div>
+    </div>
+
+    <main class="hero">
+      <section class="hero-left">
+        <div class="tag">GEN İNOVASYON • GÜNEŞ ENERJİSİ & DALGIÇ POMPA ÇÖZÜMLERİ</div>
+        <div class="headline">
+          <span class="accent">GÜNEŞ</span><br>
+          ENERJİSİ VE<br>
+          POMPA ÇÖZÜMLERİ
+        </div>
+        <p class="sub">
+          Güneş enerjisi ve dalgıç pompa uygulamalarında güvenilir, hızlı ve profesyonel çözümler sunuyoruz.
+        </p>
+
+        
+<div class="hero-map-wrap">
+  <iframe
+    class="hero-map"
+    src="https://maps.google.com/maps?q=Gen%20%C4%B0novasyon%20Otomasyon%20Sanayi%206002%20SOK%207%2FA%2038000%20Kocasinan%20Kayseri&t=&z=16&ie=UTF8&iwloc=&output=embed"
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade"
+    allowfullscreen
+    title="Gen İnovasyon Otomasyon Harita">
+  </iframe>
+  <div class="hero-map-actions">
+    <a class="mini-btn" href="https://www.google.com/maps/place/Gen+%C4%B0novasyon+Otomasyon,+Sanayi,+6002+SOK+7%2FA,+38000+Kocasinan%2FKayseri/data=!4m2!3m1!1s0x152b113c904e5a71:0x9bfb2848febb12bc!18m1!1e1?utm_source=mstt_1&entry=gps&coh=192189&g_ep=CAESBzI2LjEyLjUYACDXggMqigEsOTQyNjc3MjcsOTQyOTIxOTUsOTQyOTk1MzIsMTAwNzk2NDk4LDEwMDc5Nzc2MSwxMDA3OTY1MzUsOTQyODQ1MDUsOTQyODA1NzYsOTQyMDczOTQsOTQyMDc1MDYsOTQyMDg1MDYsOTQyMTg2NTMsOTQyMjk4MzksOTQyNzUxNjgsOTQyNzk2MTlCAlRS&skid=57e41749-5184-4f9c-9489-3897a436ab17" target="_blank" rel="noopener noreferrer">Google Maps'te Aç</a>
+    <a class="mini-btn" href="https://maps.app.goo.gl/vxUhqt1c4z26JtGm6" target="_blank" rel="noopener noreferrer">Yol Tarifi Al</a>
+  </div>
+</div>
+
+      </section>
+
+      <aside class="hero-right">
+        <div class="side-title">Resmi Bağlantılar</div>
+        <h2>Kurumsal İletişim Kanalları</h2>
+        <p class="lead">Web sitemiz, sosyal medya hesaplarımız ve doğrudan iletişim bağlantılarımız ile bize hızlıca ulaşın.</p>
+
+        <a class="button" href="https://www.geninovasyonotomasyon.tr/" target="_blank" rel="noopener noreferrer">
+          <div class="button-left">
+            <div class="icon-wrap"><img src="website.png" alt="Website"></div>
+            <div class="button-text">
+              <strong>Resmi Web Sitesi</strong>
+              <span>geninovasyonotomasyon.tr</span>
+            </div>
+          </div>
+          <div class="arrow">→</div>
+        </a>
+
+        <a class="button" href="https://www.facebook.com/share/17GukouiyM/" target="_blank" rel="noopener noreferrer">
+          <div class="button-left">
+            <div class="icon-wrap"><img src="facebook.png" alt="Facebook"></div>
+            <div class="button-text">
+              <strong>Facebook</strong>
+              <span>Kurumsal sosyal medya sayfası</span>
+            </div>
+          </div>
+          <div class="arrow">→</div>
+        </a>
+
+        <a class="button" href="https://www.instagram.com/geninovasyonotomasyon/" target="_blank" rel="noopener noreferrer">
+          <div class="button-left">
+            <div class="icon-wrap"><img src="instagram.jpg" alt="Instagram"></div>
+            <div class="button-text">
+              <strong>Instagram</strong>
+              <span>@geninovasyonotomasyon</span>
+            </div>
+          </div>
+          <div class="arrow">→</div>
+        </a>
+
+        <a class="button" href="https://www.tiktok.com/@geninovasyonotomasyon?_r=1&_t=ZS-95AhGSLqxUo" target="_blank" rel="noopener noreferrer">
+          <div class="button-left">
+            <div class="icon-wrap"><img src="tiktok.png" alt="TikTok"></div>
+            <div class="button-text">
+              <strong>TikTok</strong>
+              <span>Video ve tanıtım içerikleri</span>
+            </div>
+          </div>
+          <div class="arrow">→</div>
+        </a>
+
+        <a class="button" href="https://www.youtube.com/@geninovasyonotomasyon" target="_blank" rel="noopener noreferrer">
+          <div class="button-left">
+            <div class="icon-wrap"><img src="youtube.avif" alt="YouTube"></div>
+            <div class="button-text">
+              <strong>YouTube</strong>
+              <span>@geninovasyonotomasyon</span>
+            </div>
+          </div>
+          <div class="arrow">→</div>
+        </a>
+
+        <a class="button" href="mailto:geninovasyonotomasyon@gmail.com" target="_blank" rel="noopener noreferrer">
+          <div class="button-left">
+            <div class="icon-wrap"><img src="gmail.png" alt="Gmail"></div>
+            <div class="button-text">
+              <strong>E-Posta</strong>
+              <span>geninovasyonotomasyon@gmail.com</span>
+            </div>
+          </div>
+          <div class="arrow">→</div>
+        </a>
+
+        <a class="button" href="tel:+905336998975" target="_blank" rel="noopener noreferrer">
+          <div class="button-left">
+            <div class="icon-wrap"><img src="telefon.png" alt="Telefon"></div>
+            <div class="button-text">
+              <strong>Telefon</strong>
+              <span>0533 699 89 75</span>
+            </div>
+          </div>
+          <div class="arrow">→</div>
+        </a>
+
+        <a class="button" href="https://wa.me/905336998975" target="_blank" rel="noopener noreferrer">
+          <div class="button-left">
+            <div class="icon-wrap"><img src="whatsapp.jpg" alt="WhatsApp"></div>
+            <div class="button-text">
+              <strong>WhatsApp</strong>
+              <span>Hemen sohbet başlatın</span>
+            </div>
+          </div>
+          <div class="arrow">→</div>
+        </a>
+
+        <div class="video-card">
+          <div class="video-head">
+            <strong>Tanıtım Videosu</strong>
+            <span>Site içinde oynatılır</span>
+          </div>
+          <iframe
+            src="https://www.youtube.com/embed/DHtz0mX-LgQ?autoplay=1&mute=1&rel=0&modestbranding=1&controls=1&playsinline=1?rel=0&modestbranding=1"
+            title="Gen İnovasyon Tanıtım Videosu"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen></iframe>
+        </div>
+      </aside>
+    </main>
+
+  </div>
+</body>
+</html>
